@@ -4,15 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\BlogGallery;
 
 class BlogGalleryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data = BlogGallery::query();
+
+        if ($request->has('search')) {
+            $data->where('*', 'like', '%' . $request->search . '%');
+        }
+
+        $data = $data->paginate(5);
+        return response()->json([
+            'status' => true,
+            'message' => 'Data Blog',
+            'data' => $data
+        ], 200);
     }
 
     /**

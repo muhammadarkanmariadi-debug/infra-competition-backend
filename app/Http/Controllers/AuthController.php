@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use GuzzleHttp\Psr7\Query;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -54,10 +54,6 @@ class AuthController extends Controller
             ], 401);
         }
 
-
-
-
-
         return response()->json([
             'status' => true,
             'message' => 'Login Berhasil',
@@ -68,7 +64,7 @@ class AuthController extends Controller
     public function me(Request $request)
     {
 
-        $user = auth()->guard('api')->user();
+        $user = Auth::user();
 
         if (!$user) {
             return response()->json([
@@ -88,9 +84,19 @@ class AuthController extends Controller
         $token = $request->bearerToken();
         auth()->guard('api')->logout(true);
 
+        if (!$token) {
+            return response()->json([
+                'status' => false,
+                'message' => 'anda belum login',
+            ], 404);
+        }
         return response()->json([
             'status' => true,
             'message' => 'Logout Berhasil',
         ], 200);
     }
+
+    
+
+
 }
