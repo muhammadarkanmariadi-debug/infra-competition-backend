@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\APIReturn;
 use App\Http\Controllers\Controller;
+use App\Models\Major;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class MajorController extends Controller
 {
@@ -12,7 +15,8 @@ class MajorController extends Controller
      */
     public function index()
     {
-        //
+        $data = Major::all();
+        return APIReturn::success($data, 'Majors retrieved successfully');
     }
 
     /**
@@ -28,7 +32,18 @@ class MajorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+        ]);
+        if ($validator->fails()) {
+            return APIReturn::error('Validation Error', 422, $validator->errors());
+        }
+
+        $major = Major::create([
+            'name' => $request->name,
+        ]);
+
+        return APIReturn::success($major, 'Major created successfully', 201);
     }
 
     /**
@@ -52,7 +67,24 @@ class MajorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return APIReturn::error('Validation Error', 422, $validator->errors());
+        }
+
+        $major = Major::find($id);
+        if (!$major) {
+            return APIReturn::error('Major not found', 404);
+        }
+
+        $major->update([
+            'name' => $request->name,
+        ]);
+
+        return APIReturn::success($major, 'Major updated successfully');
     }
 
     /**
@@ -60,6 +92,12 @@ class MajorController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $major = Major::find($id);
+        if (!$major) {
+            return APIReturn::error('Major not found', 404);
+        }
+
+        $major->delete();
+        return APIReturn::success(null, 'Major deleted successfully');
     }
 }
