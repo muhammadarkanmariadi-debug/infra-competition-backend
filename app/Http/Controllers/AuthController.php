@@ -45,7 +45,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $data = $request->only('name', 'password');
+        $data = $request->only('email', 'password');
 
         if (!$token = auth()->guard('api')->attempt($data)) {
             return response()->json([
@@ -54,13 +54,9 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $user = auth()->guard('api')->user();
 
-        token::create([
-            'user_id'   => $user->id,
-            'token'     => $token,
-            'expires_at' => now()->addHours(1),
-        ]);
+
+
 
         return response()->json([
             'status' => true,
@@ -91,9 +87,6 @@ class AuthController extends Controller
     {
         $token = $request->bearerToken();
         auth()->guard('api')->logout(true);
-        if ($token) {
-            token::where('token', $token)->delete();
-        }
 
         return response()->json([
             'status' => true,

@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -15,19 +19,16 @@ class BlogController extends Controller
     {
         $data = Blog::query();
 
-        if($request->has('search')) {
-            $data->where('*', 'like', '%'.$request->search.'%');
-
+        if ($request->has('search')) {
+            $data->where('*', 'like', '%' . $request->search . '%');
         }
 
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $data = $data->paginate(5);
+        return response()->json([
+            'status' => true,
+            'message' => 'Data Blog',
+            'data' => $data
+        ], 200);
     }
 
     /**
@@ -35,31 +36,106 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd(auth()->guard('api')->user());
+        $validate = Validator::make($request->all(), [
+            'title' => 'required',
+            'thumbnail' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'tags' => 'required',
+            'body' => 'required',
+            'short_body' => 'required',
+            'slug' => 'required',
+            'is_published' => 'required',
+            'author_id' => 'required|exists:users,id'
+        ]);
+
+
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validate->errors(),
+            ], 409);
+        }
+
+        $short_body = substr($request->body, 0, 100);
+        $thumbnail = $request->file('thumbnail')->store('images', 'public');
+
+        $data =  Blog::create([
+            'title' => $request->title,
+            'body' => $request->body,
+            'short_body' => $short_body,
+            'thumbnail' => $thumbnail,
+            'tags' => $request->tags,
+            'slug' => $request->slug,
+            'is_published' => true,
+            'author_id' => Auth::guard('api')->user()->id
+        ]);
+
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Blog sudah dibuat',
+            'data' => $data,
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id, $slug )
     {
-        //
+        $data = Blog::find($id);
+
+        $slug = $data->slug;
+        return response()->json([
+            'status' => true,
+            'message' => 'Data Blog dengan id ' . $id,
+            'data' => $data
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validate = Validator::make($request->all(), [
+            'title' => 'nullable',
+            'thumbnail' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'tags' => 'nullable',
+            'body' => 'nullable',
+            'short_body' => 'nullable',
+            'slug' => 'nullable',
+            'is_published' => 'nullable',
+            'author_id' => 'nullable|exists:users,id'
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validate->errors(),
+            ], 409);
+        }
+
+        $short_body = substr($request->body, 0, 100);
+        $thumbnail = $request->file('thumbnail')->store('images', 'public');
+
+        $data =  Blog::find($id)->update([
+            'title' => $request->title,
+            'body' => $request->body,
+            'short_body' => $short_body,
+            'thumbnail' => $thumbnail,
+            'tags' => $request->tags,
+            'slug' => $request->slug,
+            'is_published' => true,
+            'author_id' => Auth::user()->id
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Blog sudah diupdate',
+            'data' => $data,
+        ], 201);
     }
 
     /**
@@ -67,6 +143,10 @@ class BlogController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Blog::find($id)->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Blog dengan id ' . $id . ' sudah dihapus',
+        ], 201);
     }
 }
