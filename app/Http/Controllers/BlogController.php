@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Blog;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -10,9 +11,15 @@ class BlogController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data = Blog::query();
+
+        if($request->has('search')) {
+            $data->where('*', 'like', '%'.$request->search.'%');
+
+        }
+
     }
 
     /**
