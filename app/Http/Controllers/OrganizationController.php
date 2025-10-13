@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\APIReturn;
 use App\Http\Controllers\Controller;
+use App\Models\Organization;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class OrganizationController extends Controller
 {
@@ -12,7 +15,9 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        //
+        $data = Organization::with('mentor')->get();
+
+        return APIReturn::success($data, 'Organizations retrieved successfully');
     }
 
     /**
@@ -28,7 +33,23 @@ class OrganizationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'isOrganization' => 'required|boolean',
+            'logo' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'visi' => 'nullable|string',
+            'misi' => 'nullable|string',
+            'description' => 'nullable|string',
+            'mentor_id' => 'required|exists:users,id',
+        ]);
+
+        if ($validator->fails()) {
+            return APIReturn::error('Validation Error', 422, $validator->errors());
+        }
+
+        $organization = Organization::create($validator->validated());
+
+        return APIReturn::success($organization, 'Organization created successfully', 201);
     }
 
     /**
@@ -52,7 +73,28 @@ class OrganizationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'nullable|string|max:255',
+            'isOrganization' => 'nullable|boolean',
+            'logo' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'visi' => 'nullable|string',
+            'misi' => 'nullable|string',
+            'description' => 'nullable|string',
+            'mentor_id' => 'nullable|exists:users,id',
+        ]);
+
+        if ($validator->fails()) {
+            return APIReturn::error('Validation Error', 422, $validator->errors());
+        }
+
+        $organization = Organization::find($id);
+        if (!$organization) {
+            return APIReturn::error('Organization not found', 404);
+        }
+
+        $organization->update($validator->validated());
+
+        return APIReturn::success($organization, 'Organization updated successfully');
     }
 
     /**
@@ -60,6 +102,13 @@ class OrganizationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $organization = Organization::find($id);
+        if (!$organization) {
+            return APIReturn::error('Organization not found', 404);
+        }
+
+        $organization->delete();
+
+        return APIReturn::success(null, 'Organization deleted successfully');
     }
 }

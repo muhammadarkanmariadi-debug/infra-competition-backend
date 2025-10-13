@@ -12,7 +12,7 @@ class OrganizationRoleController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
