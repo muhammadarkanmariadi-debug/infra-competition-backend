@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Helper\APIReturn;
 
 class BlogController extends Controller
 {
@@ -17,18 +18,21 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Blog::query();
+        $data = Blog::query()->with('blogGallery');
 
         if ($request->has('search')) {
             $data->where('*', 'like', '%' . $request->search . '%');
         }
 
         $data = $data->paginate(5);
-        return response()->json([
-            'status' => true,
-            'message' => 'Data Blog',
-            'data' => $data
-        ], 200);
+
+        if ($data == null) {
+            return APIReturn::error('Data Blog masih kosong', 404);
+        }else {
+            return APIReturn::success($data, 'Data Blog', 200);
+        }
+
+
     }
 
     /**
@@ -81,23 +85,24 @@ class BlogController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id, $slug )
+    public function show(string $id)
     {
         $data = Blog::find($id);
 
-        $slug = $data->slug;
-        return response()->json([
-            'status' => true,
-            'message' => 'Data Blog dengan id ' . $id,
-            'data' => $data
-        ]);
+
+        if (!$data) {
+            return APIReturn::error('Data Blog tidak ditemukan', 404);
+        }else {
+            return APIReturn::success($data, 'Data Blog', 200);
+        }
+
     }
 
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
         $validate = Validator::make($request->all(), [
             'title' => 'nullable',
@@ -148,5 +153,15 @@ class BlogController extends Controller
             'status' => true,
             'message' => 'Blog dengan id ' . $id . ' sudah dihapus',
         ], 201);
+    }
+
+    public function author(Request $request)
+    {
+        $data = Blog::where('author_id', $request->author_id)->get('title');
+        return response()->json([
+            'status' => true,
+            'message' => 'Data Blog Oleh ' . $request->author_id,
+            'data' => $data
+        ], 200);
     }
 }

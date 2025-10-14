@@ -12,15 +12,16 @@ class APIReturn
             'status' => true,
             'message' => $message,
             'data' => $data,
+
         ], $code);
     }
 
-    public static function error($message = 'Error', $code = 400, $data = null): JsonResponse
+    public static function error($message = 'Error', $code = 400, $detail = null): JsonResponse
     {
         return response()->json([
             'status' => false,
             'message' => $message,
-            'data' => $data,
+            'detail' => $detail,
         ], $code);
     }
 }

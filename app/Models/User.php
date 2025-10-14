@@ -65,13 +65,16 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims()
     {
-        return [
-
-        ];
+        return [];
     }
 
     public function socialProfile()
     {
         return $this->hasOne(SocialProfile::class);
+    }
+
+    public function blog()
+    {
+        return $this->hasMany(Blog::class);
     }
 }
