@@ -15,7 +15,7 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        $data = Organization::with('mentor')->get();
+        $data = Organization::with(['mentor', 'organizationRoles'])->get();
 
         return APIReturn::success($data, 'Organizations retrieved successfully');
     }
@@ -35,7 +35,7 @@ class OrganizationController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'isOrganization' => 'required|boolean',
+            'is_organization' => 'required|boolean',
             'logo' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'visi' => 'nullable|string',
             'misi' => 'nullable|string',
@@ -75,7 +75,7 @@ class OrganizationController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'nullable|string|max:255',
-            'isOrganization' => 'nullable|boolean',
+            'is_organization' => 'nullable|boolean',
             'logo' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'visi' => 'nullable|string',
             'misi' => 'nullable|string',

@@ -29,8 +29,6 @@ class SettingSeeder extends Seeder
             'tiktok' => 'tiktok',
             'youtube' => 'youtube',
             'facebook' => 'facebook',
-            
-
         ]);
     }
 }

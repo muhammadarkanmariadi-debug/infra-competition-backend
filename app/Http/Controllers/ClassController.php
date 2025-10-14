@@ -17,14 +17,14 @@ use App\Models\Expertise;
 class ClassController extends Controller
 {
 
-
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = Classes::with('generation', 'major', 'grade', 'expertise')->query();
+        $data = Classes::with(['generation', 'major', 'grade', 'expertise'])->get();
+
+
 
         if (request('search')) {
             $data->where('name', 'like', '%' . request('search') . '%');
@@ -39,13 +39,6 @@ class ClassController extends Controller
         return response()->json([
             'message' => 'Data Kelas',
             'data' => $data,
-            'detail kelas' => [
-                'generation' => $data->generation->name,
-                'major' => $data->major->name,
-                'grade' => $data->grade->name,
-                'expertise' => $data->expertise->name
-            ]
-
 
         ]);
     }
@@ -112,18 +105,7 @@ class ClassController extends Controller
             ]);
         }
 
-        return response()->json([
-            'message' => 'Data Kelas dengan id ' . $id. 'diupdate',
-            'data' => $data,
-            'detail kelas' => [
-                'generation' => $data->generation->name,
-                'major' => $data->major->name,
-                'grade' => $data->grade->name,
-                'expertise' => $data->expertise->name
-            ]
-
-
-        ]);
+        return APIReturn::success($data, 'Data Kelas', 200);
     }
 
     /**
@@ -149,7 +131,8 @@ class ClassController extends Controller
 
 
 
-        $data = Classes::find($id)->update([
+        $data = Classes::find($id);
+        $data->update([
             'name' => $request->name,
             'generation_id' => $request->generation_id,
             'homeroomTeacher_id' => $request->homeroomTeacher_id,

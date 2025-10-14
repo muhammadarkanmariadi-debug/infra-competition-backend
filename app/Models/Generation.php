@@ -10,6 +10,6 @@ class Generation extends Model
 
     public function generationgallery()
     {
-        return $this->belongsTo(GenerationGallery::class);
+        return $this->hasMany(GenerationGallery::class);
     }
 }

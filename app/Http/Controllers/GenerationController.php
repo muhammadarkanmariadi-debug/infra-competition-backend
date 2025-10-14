@@ -15,15 +15,18 @@ class GenerationController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Generation::with('generationgallery')->query();
+        $data = Generation::with('generationgallery');
+
         if ($request->has('search')) {
             $data->where('name', 'like', '%' . $request->search . '%');
         }
 
-        if ($data == null) {
+
+
+        if (empty($data)) {
             return APIReturn::error('Data Generations masih kosong', 404);
         } else {
-            return APIReturn::success($data, 'Generations retrieved successfully');
+            return APIReturn::success($data->get(), 'Generations retrieved successfully', 200);
         }
     }
 

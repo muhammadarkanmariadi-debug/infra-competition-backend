@@ -17,14 +17,18 @@ class ExpertiseController extends Controller
     {
         $data = Expertise::query();
 
-        $datas = $data->paginate(5)->latest();
-        if ($datas == null) {
+        if (request('search')) {
+            $data->where('name', 'like', '%' . request('search') . '%');
+        }
+
+
+        if ($data == null) {
             return APIReturn::error('Data Expertise masih kosong', 404);
         }
         return response()->json([
             'status' => true,
             'message' => 'Data Expertise',
-            'data' => $datas
+            'data' => $data->get()
         ], 200);
     }
 
@@ -83,7 +87,9 @@ class ExpertiseController extends Controller
        }
 
 
-       $data = Expertise::find($id)->update([
+       $data = Expertise::find($id);
+
+       $data->update([
            'name' => $request->name,
        ]);
 

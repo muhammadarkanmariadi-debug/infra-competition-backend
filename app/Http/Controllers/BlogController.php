@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Helper\APIReturn;
+use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
@@ -47,7 +48,6 @@ class BlogController extends Controller
             'tags' => 'required',
             'body' => 'required',
             'short_body' => 'required',
-            'slug' => 'required',
             'is_published' => 'required',
             'author_id' => 'required|exists:users,id'
         ]);
@@ -69,7 +69,7 @@ class BlogController extends Controller
             'short_body' => $short_body,
             'thumbnail' => $thumbnail,
             'tags' => $request->tags,
-            'slug' => $request->slug,
+            'slug' => Str::slug($request->title),
             'is_published' => true,
             'author_id' => Auth::guard('api')->user()->id
         ]);
@@ -85,9 +85,9 @@ class BlogController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        $data = Blog::find($id);
+        $data = Blog::find($slug)->with('blogGallery');
 
 
         if (!$data) {
@@ -102,8 +102,9 @@ class BlogController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, $id)
     {
+        // dd($request);
         $validate = Validator::make($request->all(), [
             'title' => 'nullable',
             'thumbnail' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
@@ -122,16 +123,18 @@ class BlogController extends Controller
             ], 409);
         }
 
+
         $short_body = substr($request->body, 0, 100);
         $thumbnail = $request->file('thumbnail')->store('images', 'public');
 
-        $data =  Blog::find($id)->update([
+        $data =  Blog::find($id);
+        $data   ->update([
             'title' => $request->title,
             'body' => $request->body,
             'short_body' => $short_body,
             'thumbnail' => $thumbnail,
             'tags' => $request->tags,
-            'slug' => $request->slug,
+            'slug' => Str::slug($request->title),
             'is_published' => true,
             'author_id' => Auth::user()->id
         ]);
@@ -155,9 +158,10 @@ class BlogController extends Controller
         ], 201);
     }
 
-    public function author(Request $request)
+    public function author($id)
     {
-        $data = Blog::with('author')->where('author_id', $request)->get('slug');
+        $data = Blog::where('author_id', $id)->with('author')->get();
+
 
         if(count($data) < 1){
             return APIReturn::error('Data Blog `tidak ditemukan', 404);
@@ -165,8 +169,8 @@ class BlogController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Data Blog Oleh ' . $data->author->name,
-            'data' => $data
+            'data' => $data,
+            'message' => 'Data Blog Oleh ' . $data[0]->author->name,
         ], 200);
     }
 }

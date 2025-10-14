@@ -15,13 +15,14 @@ class GenerationGalleryController extends Controller
      */
     public function index()
     {
-        $data = GenerationGallery::query();
+        $data = GenerationGallery::get();
 
-        $datas = $data->paginate(5)->latest();
-        if ($datas == null) {
+
+
+        if (count($data) < 1) {
             return APIReturn::error('Data Generations masih kosong', 404);
         }else {
-            return APIReturn::success($datas, 'Data Generations', 200);
+            return APIReturn::success($data, 'Data Generations', 200);
         }
 
     }
@@ -87,7 +88,9 @@ class GenerationGalleryController extends Controller
 
         $path = $request->file('path')->store('images', 'public');
 
-        $data = GenerationGallery::find($id)->update([
+        $data = GenerationGallery::find($id);
+
+        $data->update([
             'generation_id' => $request->generation_id,
             'path' => $path,
             'name' => $request->name

@@ -15,12 +15,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\isAdmin;
 use App\Models\Organization;
-use Illuminate\Auth\Middleware\Authenticate;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\OrganizationRoleController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\SocialProfileController;
+use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\UnitController;
+use App\Http\Middleware\isAuth;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Http\Middleware\Authenticate;
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register');
@@ -31,9 +36,9 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::controller(BlogController::class)->group(function () {
     Route::get('/blog', 'index');
-    Route::get('/blog/{id}-{slug}', 'show');
-    Route::get('/blog/author', 'author');
-    Route::middleware([isSiswa::class, isAdmin::class, Authenticate::class])->group(function () {
+    Route::get('/blog/{slug}', 'show');
+    Route::get('/blog/author/{id}', 'author');
+    Route::middleware([isAdmin::class, isSiswa::class, Authenticate::class])->group(function () {
         Route::post('/blog', 'store');
         Route::put('/blog/{id}', 'update');
         Route::delete('/blog/{id}', 'destroy');
@@ -55,7 +60,7 @@ Route::controller(BlogGalleryController::class)->group(function () {
 Route::controller(ClassController::class)->group(function () {
     Route::get('/class', 'index');
     Route::get('/class/{id}', 'show');
-    Route::middleware([isSiswa::class, isAdmin::class, Authenticate::class])->group(function () {
+    Route::middleware([ isAdmin::class, Authenticate::class])->group(function () {
         Route::post('/class', 'store');
         Route::put('/class/{id}', 'update');
         Route::delete('/class/{id}', 'destroy');
@@ -65,7 +70,7 @@ Route::controller(ClassController::class)->group(function () {
 Route::controller(ExpertiseController::class)->group(function () {
     Route::get('/expertise', 'index');
     Route::get('/expertise/{id}', 'show');
-    Route::middleware([isSiswa::class, isAdmin::class, Authenticate::class])->group(function () {
+    Route::middleware([ isAdmin::class, Authenticate::class])->group(function () {
         Route::post('/expertise', 'store');
         Route::put('/expertise/{id}', 'update');
         Route::delete('/expertise/{id}', 'destroy');
@@ -75,7 +80,7 @@ Route::controller(ExpertiseController::class)->group(function () {
 Route::controller(GenerationController::class)->group(function () {
     Route::get('/generation', 'index');
     Route::get('/generation/{id}', 'show');
-    Route::middleware([isSiswa::class, isAdmin::class, Authenticate::class])->group(function () {
+    Route::middleware([ isAdmin::class, Authenticate::class])->group(function () {
         Route::post('/generation', 'store');
         Route::put('/generation/{id}', 'update');
         Route::delete('/generation/{id}', 'destroy');
@@ -85,7 +90,7 @@ Route::controller(GenerationController::class)->group(function () {
 Route::controller(GenerationGalleryController::class)->group(function () {
     Route::get('/generationgallery', 'index');
     Route::get('/generationgallery/{id}', 'show');
-    Route::middleware([isSiswa::class, isAdmin::class, Authenticate::class])->group(function () {
+    Route::middleware([ isAdmin::class, Authenticate::class])->group(function () {
         Route::post('/generationgallery', 'store');
         Route::put('/generationgallery/{id}', 'update');
         Route::delete('/generationgallery/{id}', 'destroy');
@@ -96,7 +101,7 @@ Route::controller(GenerationGalleryController::class)->group(function () {
 Route::controller(GradeController::class)->group(function () {
     Route::get('/grade', 'index');
     Route::get('/grade/{id}', 'show');
-    Route::middleware([isSiswa::class, isAdmin::class, Authenticate::class])->group(function () {
+    Route::middleware([ isAdmin::class, Authenticate::class])->group(function () {
         Route::post('/grade', 'store');
         Route::put('/grade/{id}', 'update');
         Route::delete('/grade/{id}', 'destroy');
@@ -106,7 +111,7 @@ Route::controller(GradeController::class)->group(function () {
 Route::controller(MajorController::class)->group(function () {
     Route::get('/major', 'index');
     Route::get('/major/{id}', 'show');
-    Route::middleware([isSiswa::class, isAdmin::class, Authenticate::class])->group(function () {
+    Route::middleware([isAdmin::class, Authenticate::class])->group(function () {
         Route::post('/major', 'store');
         Route::put('/major/{id}', 'update');
         Route::delete('/major/{id}', 'destroy');
@@ -116,7 +121,7 @@ Route::controller(MajorController::class)->group(function () {
 Route::controller(OrganizationController::class)->group(function () {
     Route::get('/organization', 'index');
     Route::get('/organization/{id}', 'show');
-    Route::middleware([isSiswa::class, isAdmin::class, Authenticate::class])->group(function () {
+    Route::middleware([ isAdmin::class, Authenticate::class])->group(function () {
         Route::post('/organization', 'store');
         Route::put('/organization/{id}', 'update');
         Route::delete('/organization/{id}', 'destroy');
@@ -126,7 +131,7 @@ Route::controller(OrganizationController::class)->group(function () {
 Route::controller(OrganizationRoleController::class)->group(function () {
     Route::get('/organizationrole', 'index');
     Route::get('/organizationrole/{id}', 'show');
-    Route::middleware([isSiswa::class, isAdmin::class, Authenticate::class])->group(function () {
+    Route::middleware([isAdmin::class, Authenticate::class])->group(function () {
         Route::post('/organizationrole', 'store');
         Route::put('/organizationrole/{id}', 'update');
         Route::delete('/organizationrole/{id}', 'destroy');
@@ -150,6 +155,33 @@ Route::controller(SocialProfileController::class)->group(function () {
         Route::post('/socialprofile', 'store');
         Route::put('/socialprofile/{id}', 'update');
         Route::delete('/socialprofile/{id}', 'destroy');
+    });
+});
+
+Route::controller(UnitController::class)->group(function () {
+    Route::get('/unit', 'index');
+    Route::get('/unit/{id}', 'show');
+    Route::middleware([ isAdmin::class, Authenticate::class])->group(function () {
+        Route::post('/unit', 'store');
+        Route::put('/unit/{id}', 'update');
+        Route::delete('/unit/{id}', 'destroy');
+    });
+});
+
+Route::controller(SubjectController::class)->group(function () {
+    Route::get('/subject', 'index');
+    Route::get('/subject/{id}', 'show');
+    Route::middleware([isAdmin::class, Authenticate::class])->group(function () {
+        Route::post('/subject', 'store');
+        Route::put('/subject/{id}', 'update');
+        Route::delete('/subject/{id}', 'destroy');
+    });
+});
+
+Route::controller(SettingController::class)->group(function () {
+    Route::get('/setting', 'show');
+    Route::middleware([isAdmin::class, Authenticate::class])->group(function () {
+        Route::put('/setting', 'update');
     });
 });
 

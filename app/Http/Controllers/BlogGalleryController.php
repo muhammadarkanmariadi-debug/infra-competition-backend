@@ -20,7 +20,7 @@ class BlogGalleryController extends Controller
             $data->where('name', 'like', '%' . $request->search . '%');
         }
 
-        $datas = $data->paginate(5)->latest();
+        $datas = $data->paginate(5);
         if ($datas == null) {
             return APIReturn::error('Data Blog masih kosong', 404);
         }
@@ -90,7 +90,8 @@ class BlogGalleryController extends Controller
 
         $path = $request->file('path')->store('images', 'public');
 
-        $data = BlogGallery::find($id)->update([
+        $data = BlogGallery::find($id);
+        $data->update([
             'blog_id' => $request->blog_id,
             'path' => $path,
             'name' => $request->name
