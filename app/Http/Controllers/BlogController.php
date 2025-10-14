@@ -157,10 +157,15 @@ class BlogController extends Controller
 
     public function author(Request $request)
     {
-        $data = Blog::where('author_id', $request->author_id)->get('title');
+        $data = Blog::with('author')->where('author_id', $request)->get('slug');
+
+        if(count($data) < 1){
+            return APIReturn::error('Data Blog `tidak ditemukan', 404);
+        }
+
         return response()->json([
             'status' => true,
-            'message' => 'Data Blog Oleh ' . $request->author_id,
+            'message' => 'Data Blog Oleh ' . $data->author->name,
             'data' => $data
         ], 200);
     }

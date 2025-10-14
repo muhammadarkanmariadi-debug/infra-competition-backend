@@ -17,9 +17,11 @@ return new class extends Migration
             $table->string('profile_photo');
             $table->foreignId('user_id')->constrained('users', 'id')->onDelete('cascade');
             $table->foreignId('organization_id')->nullable()->constrained('organizations', 'id')->onDelete('cascade');
-            $table->foreignId('class_id')->constrained('classes', 'id')->onDelete('cascade');
+            $table->foreignId('class_id')->nullable()->constrained('classes', 'id')->onDelete('cascade');
             $table->foreignId('organization_role_id')->nullable()->constrained('organization_roles', 'id')->onDelete('cascade');
-            $table->foreignId('subject_id')->constrained('subjects', 'id')->onDelete('cascade');
+            $table->foreignId('subject_id')->nullable()->constrained('subjects', 'id')->onDelete('cascade');
+            $table->foreignId('unit_id')->nullable()->constrained('units', 'id')->onDelete('cascade');
+            $table->enum('position', ['leader', 'team'])->default('team');
             $table->timestamps();
         });
     }
