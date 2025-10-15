@@ -16,7 +16,7 @@ class APIReturn
         ], $code);
     }
 
-    public static function error($message = 'Error', $code = 400, $detail = null): JsonResponse
+    public static function error($message = 'Error',  $detail = null, $code = 400): JsonResponse
     {
         return response()->json([
             'status' => false,

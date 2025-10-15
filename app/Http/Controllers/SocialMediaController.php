@@ -13,13 +13,20 @@ class SocialMediaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function indexOrganization($id)
+    public function index()
+    {
+        $data = SocialMedia::all();
+        return APIReturn::success($data, 'Social media links retrieved successfully');
+    }
+
+
+    public function showOrganization($id)
     {
         $data = SocialMedia::where('organization_id', $id)->get();
         return APIReturn::success($data, 'Social media links retrieved successfully');
     }
 
-    public function indexUsers($id)
+    public function showUsers($id)
     {
         $data = SocialMedia::where('user_id', $id)->get();
         return APIReturn::success($data, 'Social media links retrieved successfully');
@@ -62,29 +69,6 @@ class SocialMediaController extends Controller
         return APIReturn::success($data, 'Social media link created successfully', 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

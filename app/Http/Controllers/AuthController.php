@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\SocialProfile;
 use App\Models\token;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -35,10 +36,24 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        if ($user) {
+            $socialProfile =  SocialProfile::create([
+                'user_id' => $user->id,
+                'description' => null,
+                'profile_photo' => null,
+                'organization_id' => null,
+                'class_id' => null,
+                'organization_role_id' => null,
+                'status' => null,
+                'position' => null,
+
+            ]);
+        }
         return response()->json([
             'status' => true,
             'message' => 'User sudah dibuat',
             'data' => $user,
+            'social' => $socialProfile
         ], 201);
     }
 
@@ -61,10 +76,14 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function me(Request $request)
+    public function me()
     {
 
         $user = Auth::user();
+        $userr = User::with('socialmedia', 'blog', 'socialProfile')->find($user->id);
+
+
+
 
         if (!$user) {
             return response()->json([
@@ -75,7 +94,7 @@ class AuthController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Data User',
-            'data' => $user,
+            'data' => $userr,
         ], 200);
     }
 
@@ -96,7 +115,26 @@ class AuthController extends Controller
         ], 200);
     }
 
-    
 
+    public function adminUpdate(Request $request, $id)
+    {
+        $validate = Validator::make($request->all(), [
+            'role' => 'required',
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validate->errors(),
+            ], 409);
+        }
+        $user = User::find($id);
+        $user->update($validate->validated());
+        return response()->json([
+            'status' => true,
+            'message' => 'User sudah diupdate',
+            'data' => $user
+        ], 201);
+    }
 
 }

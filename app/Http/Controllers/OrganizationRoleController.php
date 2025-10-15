@@ -8,15 +8,23 @@ use App\Models\OrganizationRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+use function Laravel\Prompts\error;
+
 class OrganizationRoleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index($id)
+    public function index()
     {
-        $data = OrganizationRole::where('organization_id', $id)->get();
-        return APIReturn::success($data, 'Organization roles retrieved successfully');
+        $data = OrganizationRole::get();
+
+
+        if (count($data) < 1) {
+            return APIReturn::error('error', 'Data Organization Role masih kosong', 404);
+        } else {
+            return APIReturn::success($data, 'Data Organization Role', 200);
+        }
     }
 
     /**
@@ -33,7 +41,7 @@ class OrganizationRoleController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'role' => 'required|string|max:255',
             'organization_id' => 'required|exists:organizations,id',
         ]);
         if ($validator->fails()) {
@@ -49,7 +57,8 @@ class OrganizationRoleController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $data = OrganizationRole::where('organization_id', $id)->get();
+        return APIReturn::success($data, 'Organization roles retrieved successfully');
     }
 
     /**
@@ -66,7 +75,7 @@ class OrganizationRoleController extends Controller
     public function update(Request $request, string $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'role' => 'required|string|max:255',
             'organization_id' => 'required|exists:organizations,id',
         ]);
         if ($validator->fails()) {

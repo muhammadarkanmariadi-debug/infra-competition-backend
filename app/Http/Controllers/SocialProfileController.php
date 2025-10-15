@@ -13,10 +13,9 @@ class SocialProfileController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($id)
-    {
-        $data = SocialProfile::with(['user', 'organization', 'class', 'organizationRole'])->where('user_id', $id)->first();
-        return APIReturn::success($data, 'Social profile retrieved successfully');
+    public function index() {
+        $data = SocialProfile::all();
+        return APIReturn::success($data, 'Social profiles retrieved successfully', 200);
     }
 
     /**
@@ -42,7 +41,7 @@ class SocialProfileController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return APIReturn::error('Validation Error', 422, $validator->errors());
+            return APIReturn::error('Validation Error',  $validator->errors(), 422);
         }
         $socialProfile = SocialProfile::create($validator->validated());
         return APIReturn::success($socialProfile, 'Social profile created successfully', 201);
@@ -51,9 +50,10 @@ class SocialProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show( $id)
     {
-        //
+        $data = SocialProfile::with(['user', 'organization', 'class', 'organizationRole'])->findOrFail($id);
+        return APIReturn::success($data, 'Social profile retrieved successfully');
     }
 
     /**
@@ -79,7 +79,7 @@ class SocialProfileController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return APIReturn::error('Validation Error', 422, $validator->errors());
+            return APIReturn::error('Validation Error',$validator->errors(), 422 );
         }
 
         $socialProfile = SocialProfile::find($id);

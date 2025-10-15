@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('social_profiles', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
-            $table->string('profile_photo');
-            $table->foreignId('user_id')->constrained('users', 'id')->onDelete('cascade');
+            $table->string('description')->nullable();
+            $table->string('profile_photo')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users', 'id')->onDelete('cascade');
             $table->foreignId('organization_id')->nullable()->constrained('organizations', 'id')->onDelete('cascade');
             $table->foreignId('class_id')->nullable()->constrained('classes', 'id')->onDelete('cascade');
             $table->foreignId('organization_role_id')->nullable()->constrained('organization_roles', 'id')->onDelete('cascade');
             $table->foreignId('subject_id')->nullable()->constrained('subjects', 'id')->onDelete('cascade');
             $table->foreignId('unit_id')->nullable()->constrained('units', 'id')->onDelete('cascade');
-            $table->enum('position', ['leader', 'team'])->default('team');
+            $table->enum('position', ['leader', 'team'])->nullable()->default('team');
             $table->timestamps();
         });
     }
