@@ -24,8 +24,11 @@ use App\Http\Controllers\SocialProfileController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UnitController;
 use App\Http\Middleware\isAuth;
+use App\Models\Ekstrakulikuler;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Http\Middleware\Authenticate;
+use App\Models\EkstrakulikulerGallery;
+
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register');
@@ -143,11 +146,14 @@ Route::controller(OrganizationRoleController::class)->group(function () {
 });
 
 Route::controller(SocialMediaController::class)->group(function () {
+    Route::get('/socialmedia', 'index');
     Route::get('/socialmedia/organization/{id}', 'showOrganization');
     Route::get('/socialmedia/user/{id}', 'showUser');
     Route::middleware([isSiswa::class, isAdmin::class, Authenticate::class])->group(function () {
-        Route::post('/socialmedia', 'store');
-        Route::put('/socialmedia/{id}', 'update');
+        Route::post('/socialmedia/user', 'storeUser');
+        Route::put('/socialmedia/user/{id}', 'updateUser');
+        Route::post('/socialmedia/organization', 'storeOrganization');
+        Route::put('/socialmedia/organization/{id}', 'updateOrganization');
         Route::delete('/socialmedia/{id}', 'destroy');
     });
 });
@@ -186,5 +192,26 @@ Route::controller(SettingController::class)->group(function () {
     Route::get('/setting', 'show');
     Route::middleware([isAdmin::class, Authenticate::class])->group(function () {
         Route::put('/setting', 'update');
+    });
+});
+
+
+Route::controller(Ekstrakulikuler::class)->group(function () {
+    Route::get('/ekstrakulikuler', 'index');
+    Route::get('/ekstrakulikuler/{id}', 'show');
+    Route::middleware([isAdmin::class, Authenticate::class])->group(function () {
+        Route::post('/ekstrakulikuler', 'store');
+        Route::put('/ekstrakulikuler/{id}', 'update');
+        Route::delete('/ekstrakulikuler/{id}', 'destroy');
+    });
+});
+
+Route::controller(EkstrakulikulerGallery::class)->group(function () {
+    Route::get('/ekstrakulikulergallery', 'index');
+    Route::get('/ekstrakulikulergallery/{id}', 'show');
+    Route::middleware([isAdmin::class, Authenticate::class])->group(function () {
+        Route::post('/ekstrakulikulergallery', 'store');
+        Route::put('/ekstrakulikulergallery/{id}', 'update');
+        Route::delete('/ekstrakulikulergallery/{id}', 'destroy');
     });
 });
