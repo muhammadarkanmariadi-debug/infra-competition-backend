@@ -20,7 +20,7 @@ class MajorController extends Controller
         if (count($data) < 1) {
             return APIReturn::error(null, 'Majors not found', 404);
         }else{
-
+            return APIReturn::success($data, 'Majors retrieved successfully', 200);
         }
 
     }
@@ -40,13 +40,21 @@ class MajorController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'description' => 'required|string',
         ]);
+
+
         if ($validator->fails()) {
-            return APIReturn::error('Validation Error', 422, $validator->errors());
+            return APIReturn::error('Validation Error', $validator->errors(), 422);
         }
+
+        $imagePath = $request->file('thumbnail')->store('images', 'public');
 
         $major = Major::create([
             'name' => $request->name,
+            'thumbnail' => $imagePath,
+            'description' => $request->description,
         ]);
 
         return APIReturn::success($major, 'Major created successfully', 201);

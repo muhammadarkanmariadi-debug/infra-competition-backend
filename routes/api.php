@@ -1,13 +1,16 @@
 <?php
 
+use App\Http\Controllers\AspirasiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BlogGalleryController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\EkstrakulikulerController;
 use App\Http\Controllers\ExpertiseController;
 use App\Http\Controllers\GenerationController;
 use App\Http\Controllers\GenerationGalleryController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\KesanPesanController;
 use App\Http\Controllers\MajorController;
 use App\Http\Middleware\isSiswa;
 use App\Http\Middleware\jewete;
@@ -33,6 +36,7 @@ use App\Models\EkstrakulikulerGallery;
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'register');
     Route::post('/login', 'login');
+    Route::post('/login/google/callback', 'loginWithGoogle');
     Route::post('/logout', 'logout');
     Route::get('/me', 'me');
     Route::put('/admin/{id}', 'adminUpdate')->middleware(
@@ -196,7 +200,7 @@ Route::controller(SettingController::class)->group(function () {
 });
 
 
-Route::controller(Ekstrakulikuler::class)->group(function () {
+Route::controller(EkstrakulikulerController::class)->group(function () {
     Route::get('/ekstrakulikuler', 'index');
     Route::get('/ekstrakulikuler/{id}', 'show');
     Route::middleware([isAdmin::class, Authenticate::class])->group(function () {
@@ -214,4 +218,22 @@ Route::controller(EkstrakulikulerGallery::class)->group(function () {
         Route::put('/ekstrakulikulergallery/{id}', 'update');
         Route::delete('/ekstrakulikulergallery/{id}', 'destroy');
     });
+});
+
+
+Route::controller(KesanPesanController::class)->group(function () {
+    Route::get('/kesanpesan', 'index');
+    Route::get('/kesanpesan/{id}', 'show');
+    Route::middleware([Authenticate::class])->group(function () {
+        Route::post('/kesanpesan', 'store');
+        Route::put('/kesanpesan/{id}', 'update');
+        Route::delete('/kesanpesan/{id}', 'destroy');
+    });
+});
+
+Route::controller(AspirasiController::class)->group(function () {
+    Route::get('/aspirasi', 'index');
+    Route::get('/aspirasi/{id}', 'show');
+    Route::post('/aspirasi', 'store');
+
 });

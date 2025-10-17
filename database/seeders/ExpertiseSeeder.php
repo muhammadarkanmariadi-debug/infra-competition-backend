@@ -15,7 +15,8 @@ class ExpertiseSeeder extends Seeder
     {
         Expertise::create([
             'name' => 'Expertise 1',
-            
+            'major_id' => 1,
+            'description' => 'Description for Expertise 1',
         ]);
     }
 }

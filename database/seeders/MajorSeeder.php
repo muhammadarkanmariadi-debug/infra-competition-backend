@@ -15,6 +15,8 @@ class MajorSeeder extends Seeder
     {
         Major::create([
             'name' => 'Major 1',
+            'thumbnail' => 'images/major1.png',
+            'description' => 'Description for Major 1',
         ]);
     }
 }

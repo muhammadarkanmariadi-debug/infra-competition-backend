@@ -19,7 +19,7 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Blog::query()->with('blogGallery', 'author');
+        $data = Blog::query();
 
         if ($request->has('search')) {
             $data->where('*', 'like', '%' . $request->search . '%');
@@ -47,7 +47,6 @@ class BlogController extends Controller
             'thumbnail' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'tags' => 'required',
             'body' => 'required',
-            'short_body' => 'required',
             'is_published' => 'required',
             'author_id' => 'required|exists:users,id'
         ]);
@@ -87,15 +86,8 @@ class BlogController extends Controller
      */
     public function show(string $slug)
     {
-        $data = Blog::find($slug)->with('blogGallery');
-
-
-        if (!$data) {
-            return APIReturn::error('Data Blog tidak ditemukan', 404);
-        }else {
-            return APIReturn::success($data, 'Data Blog', 200);
-        }
-
+        $data = Blog::where('slug', $slug)->first();
+        return APIReturn::success($data, 'Data Blog', 200);
     }
 
 

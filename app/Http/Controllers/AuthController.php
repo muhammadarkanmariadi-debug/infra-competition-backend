@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\SocialProfile;
 use App\Models\token;
+use Google_Service_Oauth2;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
@@ -70,24 +71,35 @@ class AuthController extends Controller
     public function loginWithGoogle(Request $request)
     {
         $googleToken = $request->input('token');
+        // dd($googleToken);
 
         // Verifikasi token dari frontend
         $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]);
-        $payload = $client->verifyIdToken($googleToken);
+        $payload = $client->setAccessToken($googleToken);
 
-        if (!$payload) {
+        $oauth = new Google_Service_Oauth2($client);
+        $userinfo = $oauth->userinfo->get();
+
+
+        if (!$userinfo) {
             return response()->json(['error' => 'Invalid Google token'], 401);
         }
 
-        $checkUsers = User::where('email', $payload['email'])->first();
+        $checkUsers = User::where('email', $userinfo->email)->first();
+        $token = '';
 
         if ($checkUsers) {
             $user = $checkUsers;
+            $token = auth()->guard('api')->attempt([
+                'email' => $userinfo->email,
+                'password' => 'moklet123'
+            ]);
+            // dd($token);
         } else {
             $user = User::create([
-                'name' => $payload['name'],
-                'email' => $payload['email'],
-                'password' => Hash::make(uniqid()), // Generate a random password
+                'name' => $userinfo->name,
+                'email' => $userinfo->email,
+                'password' => bcrypt('moklet123'),
             ]);
 
             if ($user) {
@@ -103,10 +115,14 @@ class AuthController extends Controller
 
                 ]);
             }
+            $token = auth()->guard('api')->attempt([
+                'email' => $userinfo->email,
+                'password' => 'moklet123',
+            ]);
+            // dd($token);
         }
 
 
-        $token = auth()->guard('api')->attempt($user);
 
         return response()->json([
             'user' => $user,
@@ -195,3 +211,4 @@ class AuthController extends Controller
     }
 
 }
+

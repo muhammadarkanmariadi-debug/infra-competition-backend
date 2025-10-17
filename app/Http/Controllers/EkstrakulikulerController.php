@@ -13,7 +13,7 @@ class EkstrakulikulerController extends Controller
 {
     public function index()
     {
-        $data = Ekstrakulikuler::with('ekstrakulikulerGalleries')->all();
+        $data = Ekstrakulikuler::with('ekstrakulikulerGalleries')->get();
 
         if (count($data) < 1) {
             return APIReturn::error('Data Ekstrakulikuler masih kosong', 404);
