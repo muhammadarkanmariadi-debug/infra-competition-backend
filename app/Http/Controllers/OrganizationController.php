@@ -95,7 +95,7 @@ class OrganizationController extends Controller
         $organization->update($validator->validated());
 
         return APIReturn::success($organization, 'Organization updated successfully');
-    }
+    } 
 
     /**
      * Remove the specified resource from storage.
