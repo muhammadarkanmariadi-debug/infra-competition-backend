@@ -15,8 +15,14 @@ class MajorController extends Controller
      */
     public function index()
     {
-        $data = Major::all();
-        return APIReturn::success($data, 'Majors retrieved successfully');
+        $data = Major::with('expertises')->get();
+
+        if (count($data) < 1) {
+            return APIReturn::error(null, 'Majors not found', 404);
+        }else{
+
+        }
+
     }
 
     /**
@@ -49,9 +55,14 @@ class MajorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $data = Major::with('expertises')->find($id);
+        if (!$data) {
+            return APIReturn::error('Major not found', 404);
+        } {
+            return APIReturn::success($data, 'Major retrieved successfully');
+        }
     }
 
     /**
@@ -65,7 +76,7 @@ class MajorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,  $id)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',

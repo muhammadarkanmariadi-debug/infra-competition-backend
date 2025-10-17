@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('expertises', function (Blueprint $table) {
+        Schema::create('ekstrakulikulers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('major_id')->constrained('majors', 'id')->onDelete('cascade');
-            $table->string('description');
+            $table->text('description');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('expertises');
+        Schema::dropIfExists('ekstrakulikulers');
     }
 };

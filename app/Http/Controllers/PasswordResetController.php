@@ -24,7 +24,7 @@ class PasswordResetController extends Controller
         return $status === Password::RESET_LINK_SENT ? APIReturn::success(null, 'Silahkan cek email', 200) : APIReturn::error(null, 'Silahkan cek email', 400);;
     }
 
-    // Ubah password pakai token
+   
     public function reset(Request $request)
     {
         $request->validate([

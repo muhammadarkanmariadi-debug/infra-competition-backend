@@ -35,8 +35,12 @@ class SocialMediaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function storeSUser(Request $request, $id)
+    public function storeUser(Request $request, $id)
     {
+        if (auth()->guard('api')->user()->id != $id) {
+            return APIReturn::error('anda tidak terautorisasi', 401);
+        }
+
         $validator = Validator::make($request->all(), [
             'type' => 'required|string|max:255',
             'url' => 'required|url|max:255',
@@ -52,7 +56,7 @@ class SocialMediaController extends Controller
         return APIReturn::success($data, 'Social media link created successfully', 201);
     }
 
-    public function storeSOrganization(Request $request, $id)
+    public function storeOrganization(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
             'type' => 'required|string|max:255',
@@ -73,8 +77,11 @@ class SocialMediaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function updateSocialUser(Request $request, string $id)
+    public function updateUser(Request $request, string $id)
     {
+        if (auth()->guard('api')->user()->id != $id) {
+            return APIReturn::error('anda tidak terautorisasi', 401);
+        }
         $validator = Validator::make($request->all(), [
             'type' => 'nullable|string|max:255',
             'url' => 'nullable|url|max:255',
@@ -90,7 +97,7 @@ class SocialMediaController extends Controller
         return APIReturn::success($socialMedia, 'Social media link updated successfully');
     }
 
-    public function updateSocialOrganization(Request $request, string $id)
+    public function updateOrganization(Request $request, string $id)
     {
         $validator = Validator::make($request->all(), [
             'type' => 'nullable|string|max:255',
@@ -112,6 +119,9 @@ class SocialMediaController extends Controller
      */
     public function destroy(string $id)
     {
+        if (auth()->guard('api')->user()->id != $id) {
+            return APIReturn::error('anda tidak terautorisasi', 401);
+        }
         $socialMedia = SocialMedia::find($id);
         if (!$socialMedia) {
             return APIReturn::error('Social media link not found', 404);

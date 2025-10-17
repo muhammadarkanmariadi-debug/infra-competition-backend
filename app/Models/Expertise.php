@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Expertise extends Model
 {
     protected $guarded = ['id'];
+
+    public function major()
+    {
+        return $this->belongsTo(Major::class);
+    }
 }

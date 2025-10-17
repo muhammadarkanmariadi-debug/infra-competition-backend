@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Ekstrakulikuler extends Model
+{
+    protected $guarded = ['id'];
+
+    public function ekstrakulerGalleries()
+    {
+        return $this->hasMany(EkstrakulikulerGallery::class);
+    }
+}

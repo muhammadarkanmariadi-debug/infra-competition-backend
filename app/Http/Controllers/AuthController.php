@@ -13,6 +13,7 @@ use GuzzleHttp\Psr7\Query;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Models\SocialMedia;
 
 class AuthController extends Controller
 {
@@ -49,12 +50,19 @@ class AuthController extends Controller
                 'position' => null,
 
             ]);
+
+            $socialMedia = SocialMedia::create([
+                'user_id' => $user->id,
+                'type' => null,
+                'url' => null,
+            ]);
         }
         return response()->json([
             'status' => true,
             'message' => 'User sudah dibuat',
             'data' => $user,
-            'social' => $socialProfile
+            'profile' => $socialProfile,
+            'socialMedia' => $socialMedia
         ], 201);
     }
 
