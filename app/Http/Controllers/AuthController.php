@@ -106,7 +106,7 @@ class AuthController extends Controller
         }
 
 
-        $token = auth()->login($user);
+        $token = auth()->guard('api')->attempt($user);
 
         return response()->json([
             'user' => $user,
