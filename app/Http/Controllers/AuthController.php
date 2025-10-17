@@ -8,6 +8,7 @@ use App\Models\token;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Google_Client;
 use GuzzleHttp\Psr7\Query;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -63,6 +64,54 @@ class AuthController extends Controller
             'profile' => $socialProfile,
             'socialMedia' => $socialMedia
         ], 201);
+    }
+
+
+    public function loginWithGoogle(Request $request)
+    {
+        $googleToken = $request->input('token');
+
+        // Verifikasi token dari frontend
+        $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]);
+        $payload = $client->verifyIdToken($googleToken);
+
+        if (!$payload) {
+            return response()->json(['error' => 'Invalid Google token'], 401);
+        }
+
+        $checkUsers = User::where('email', $payload['email'])->first();
+
+        if ($checkUsers) {
+            $user = $checkUsers;
+        } else {
+            $user = User::create([
+                'name' => $payload['name'],
+                'email' => $payload['email'],
+                'password' => Hash::make(uniqid()), // Generate a random password
+            ]);
+
+            if ($user) {
+                $socialProfile =  SocialProfile::create([
+                    'user_id' => $user->id,
+                    'description' => null,
+                    'profile_photo' => null,
+                    'organization_id' => null,
+                    'class_id' => null,
+                    'organization_role_id' => null,
+                    'status' => null,
+                    'position' => null,
+
+                ]);
+            }
+        }
+
+
+        $token = auth()->login($user);
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+        ]);
     }
 
 
