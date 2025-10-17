@@ -19,7 +19,7 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Blog::query();
+        $data = Blog::with('author')->query();
 
         if ($request->has('search')) {
             $data->where('*', 'like', '%' . $request->search . '%');
@@ -86,7 +86,7 @@ class BlogController extends Controller
      */
     public function show(string $slug)
     {
-        $data = Blog::where('slug', $slug)->first();
+        $data = Blog::where('slug', $slug)->with('author')->first();
         return APIReturn::success($data, 'Data Blog', 200);
     }
 
