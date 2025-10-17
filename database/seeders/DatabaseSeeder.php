@@ -22,12 +22,12 @@ class DatabaseSeeder extends Seeder
             GradeSeeder::class,
             OrganizationSeeder::class,
             OrganizationRoleSeeder::class,
-
             ExpertiseSeeder::class,
             SubjectSeeder::class,
             UnitSeeder::class,
             ClassSeeder::class,
             SocialProfileSeeder::class,
+            ExtracurricularSeeder::class,
 
 
         ]);

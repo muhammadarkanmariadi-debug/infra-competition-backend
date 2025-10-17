@@ -19,7 +19,7 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Blog::with('author')->query();
+        $data = Blog::with('author');
 
         if ($request->has('search')) {
             $data->where('*', 'like', '%' . $request->search . '%');
