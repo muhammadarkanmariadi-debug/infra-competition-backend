@@ -59,7 +59,7 @@ class ExpertiseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show( $id)
     {
         $data = Expertise::find($id);
         if (!$data) {
