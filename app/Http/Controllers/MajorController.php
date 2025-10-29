@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Major;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class MajorController extends Controller
 {
@@ -19,10 +20,9 @@ class MajorController extends Controller
 
         if (count($data) < 1) {
             return APIReturn::error(null, 'Majors not found', 404);
-        }else{
+        } else {
             return APIReturn::success($data, 'Majors retrieved successfully', 200);
         }
-
     }
 
     /**
@@ -40,8 +40,9 @@ class MajorController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif',
-            'description' => 'required|string',
+            'thumbnail' => 'required|string',
+            'short_description' => 'required|string',
+            'long_description' => 'required|string',
         ]);
 
 
@@ -49,12 +50,15 @@ class MajorController extends Controller
             return APIReturn::error('Validation Error', $validator->errors(), 422);
         }
 
-        $imagePath = $request->file('thumbnail')->store('images', 'public');
 
+
+        $short_description = Str::limit($request->long_description, 150);
         $major = Major::create([
             'name' => $request->name,
-            'thumbnail' => $imagePath,
+            'thumbnail' => $request->thumbnail,
             'description' => $request->description,
+            'short_description' => $short_description,
+            'long_description' => $request->long_description,
         ]);
 
         return APIReturn::success($major, 'Major created successfully', 201);
@@ -88,7 +92,11 @@ class MajorController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'thumbnail' => 'required|string',
+
+            'long_description' => 'required|string',
         ]);
+
 
         if ($validator->fails()) {
             return APIReturn::error('Validation Error', 422, $validator->errors());
@@ -98,9 +106,12 @@ class MajorController extends Controller
         if (!$major) {
             return APIReturn::error('Major not found', 404);
         }
-
+        $short_description = Str::limit($request->long_description, 150);
         $major->update([
             'name' => $request->name,
+            'thumbnail' => $request->thumbnail,
+            'short_description' => $short_description,
+            'long_description' => $request->long_description,
         ]);
 
         return APIReturn::success($major, 'Major updated successfully');

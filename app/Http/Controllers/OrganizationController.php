@@ -39,7 +39,8 @@ class OrganizationController extends Controller
             'logo' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'visi' => 'nullable|string',
             'misi' => 'nullable|string',
-            'description' => 'nullable|string',
+            'short_description' => 'nullable|string',
+            'long_description' => 'nullable|string',
             'mentor_id' => 'required|exists:users,id',
         ]);
 
@@ -79,7 +80,8 @@ class OrganizationController extends Controller
             'logo' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'visi' => 'nullable|string',
             'misi' => 'nullable|string',
-            'description' => 'nullable|string',
+            'short_description' => 'nullable|string',
+            'long_description' => 'nullable|string',
             'mentor_id' => 'nullable|exists:users,id',
         ]);
 
@@ -95,7 +97,7 @@ class OrganizationController extends Controller
         $organization->update($validator->validated());
 
         return APIReturn::success($organization, 'Organization updated successfully');
-    } 
+    }
 
     /**
      * Remove the specified resource from storage.

@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SettingSeeder::class,
             MajorSeeder::class,
-            MajorSeeder::class,
             GenerationSeeder::class,
             GradeSeeder::class,
             OrganizationSeeder::class,

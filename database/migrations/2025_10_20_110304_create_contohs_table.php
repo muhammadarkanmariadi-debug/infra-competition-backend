@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('majors', function (Blueprint $table) {
+        Schema::create('contohs', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('thumbnail');
-            $table->text('short_description');
-            $table->text('long_description');
             $table->timestamps();
         });
     }
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('majors');
+        Schema::dropIfExists('contohs');
     }
 };

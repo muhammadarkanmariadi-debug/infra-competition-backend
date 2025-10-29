@@ -31,9 +31,7 @@ class AspirasiController extends Controller
             return APIReturn::error('Validation Error', 422, $vadidate->errors());
         }
 
-        $data = Aspirasi::create([
-            $vadidate->validated()
-        ]);
+        $data = Aspirasi::create($vadidate->validate());
 
         return APIReturn::success($data, 'Aspirasi telah dibuat', 201);
     }

@@ -17,9 +17,10 @@ return new class extends Migration
             $table->boolean('is_organization')->default(false);
             $table->foreignId('mentor_id')->constrained('users', 'id')->onDelete('cascade');
             $table->string('logo');
-            $table->string('description');
-            $table->string('visi');
-            $table->string('misi');
+            $table->text('short_description');
+            $table->longText('long_description');
+            $table->text('visi');
+            $table->text('misi');
             $table->timestamps();
         });
     }
