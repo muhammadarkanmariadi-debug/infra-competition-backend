@@ -32,8 +32,8 @@ class MajorSeeder extends Seeder
             ],
         ];
 
-      
-        foreach ($majors as $major) {
+
+        foreach ($majors as &$major) {
             $major['short_description'] = Str::limit($major['long_description'], 150);
         }
 

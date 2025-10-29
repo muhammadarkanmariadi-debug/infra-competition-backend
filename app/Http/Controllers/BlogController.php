@@ -44,7 +44,7 @@ class BlogController extends Controller
         // dd(auth()->guard('api')->user());
         $validate = Validator::make($request->all(), [
             'title' => 'required',
-            'thumbnail' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'thumbnail' => 'required|string',
             'tags' => 'required',
             'body' => 'required',
             'is_published' => 'required',
@@ -60,13 +60,13 @@ class BlogController extends Controller
         }
 
         $short_body = substr($request->body, 0, 100);
-        $thumbnail = $request->file('thumbnail')->store('images', 'public');
+
 
         $data =  Blog::create([
             'title' => $request->title,
             'body' => $request->body,
             'short_body' => $short_body,
-            'thumbnail' => $thumbnail,
+            'thumbnail' => $request->thumbnail,
             'tags' => $request->tags,
             'slug' => Str::slug($request->title),
             'is_published' => true,
@@ -99,7 +99,7 @@ class BlogController extends Controller
         // dd($request);
         $validate = Validator::make($request->all(), [
             'title' => 'nullable',
-            'thumbnail' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'thumbnail' => 'nullable|string',
             'tags' => 'nullable',
             'body' => 'nullable',
             'short_body' => 'nullable',
@@ -117,14 +117,14 @@ class BlogController extends Controller
 
 
         $short_body = substr($request->body, 0, 100);
-        $thumbnail = $request->file('thumbnail')->store('images', 'public');
+
 
         $data =  Blog::find($id);
         $data   ->update([
             'title' => $request->title,
             'body' => $request->body,
             'short_body' => $short_body,
-            'thumbnail' => $thumbnail,
+            'thumbnail' => $request->thumbnail,
             'tags' => $request->tags,
             'slug' => Str::slug($request->title),
             'is_published' => true,
