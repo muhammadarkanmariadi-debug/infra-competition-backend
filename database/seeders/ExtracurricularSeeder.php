@@ -7,129 +7,160 @@ use Illuminate\Support\Facades\DB;
 
 class ExtracurricularSeeder extends Seeder
 {
+    private function getEkskulImage(string $name): string
+    {
+        $nameLower = strtolower($name);
+
+        if (str_contains($nameLower, 'musik') || str_contains($nameLower, 'band') || str_contains($nameLower, 'vokal')) {
+            return 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&h=400&fit=crop'; // Band/Music
+        } elseif (str_contains($nameLower, 'seni') || str_contains($nameLower, 'art') || str_contains($nameLower, 'lukis')) {
+            return 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=400&h=400&fit=crop'; // Art
+        } elseif (str_contains($nameLower, 'basket')) {
+            return 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=400&h=400&fit=crop'; // Basketball
+        } elseif (str_contains($nameLower, 'futsal') || str_contains($nameLower, 'sepak')) {
+            return 'https://images.unsplash.com/photo-1553778263-73a83bab9b0c?w=400&h=400&fit=crop'; // Soccer/Futsal
+        } elseif (str_contains($nameLower, 'voli') || str_contains($nameLower, 'volley')) {
+            return 'https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?w=400&h=400&fit=crop'; // Volleyball
+        } elseif (str_contains($nameLower, 'badminton') || str_contains($nameLower, 'bulutangkis')) {
+            return 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?w=400&h=400&fit=crop'; // Badminton
+        } elseif (str_contains($nameLower, 'tari') || str_contains($nameLower, 'dance')) {
+            return 'https://images.unsplash.com/photo-1508700929628-666bc8bd84ea?w=400&h=400&fit=crop'; // Dance
+        } elseif (str_contains($nameLower, 'pmr') || str_contains($nameLower, 'kesehatan') || str_contains($nameLower, 'palang')) {
+            return 'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=400&h=400&fit=crop'; // Medical/PMR
+        } elseif (str_contains($nameLower, 'pramuka') || str_contains($nameLower, 'scout')) {
+            return 'https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=400&h=400&fit=crop'; // Scout/Nature
+        } elseif (str_contains($nameLower, 'foto') || str_contains($nameLower, 'kamera') || str_contains($nameLower, 'photography')) {
+            return 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=400&h=400&fit=crop'; // Photography
+        } elseif (str_contains($nameLower, 'bahasa') || str_contains($nameLower, 'english') || str_contains($nameLower, 'conversation')) {
+            return 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=400&h=400&fit=crop'; // Language/Books
+        } elseif (str_contains($nameLower, 'coding') || str_contains($nameLower, 'programming') || str_contains($nameLower, 'komputer') || str_contains($nameLower, 'software')) {
+            return 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=400&fit=crop'; // Coding
+        } elseif (str_contains($nameLower, 'literasi') || str_contains($nameLower, 'baca') || str_contains($nameLower, 'buku')) {
+            return 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=400&fit=crop'; // Reading/Books
+        } elseif (str_contains($nameLower, 'teater') || str_contains($nameLower, 'drama')) {
+            return 'https://images.unsplash.com/photo-1503095396549-807759245b35?w=400&h=400&fit=crop'; // Theater
+        } elseif (str_contains($nameLower, 'jurnalis') || str_contains($nameLower, 'news') || str_contains($nameLower, 'media')) {
+            return 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&h=400&fit=crop'; // Journalism
+        } elseif (str_contains($nameLower, 'robotik') || str_contains($nameLower, 'robot')) {
+            return 'https://images.unsplash.com/photo-1563207153-f403bf289096?w=400&h=400&fit=crop'; // Robotics
+        } elseif (str_contains($nameLower, 'pecinta alam') || str_contains($nameLower, 'alam')) {
+            return 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=400&h=400&fit=crop'; // Nature
+        } elseif (str_contains($nameLower, 'desain') || str_contains($nameLower, 'design')) {
+            return 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=400&fit=crop'; // Design
+        } elseif (str_contains($nameLower, 'organisasi') || str_contains($nameLower, 'osis') || str_contains($nameLower, 'mpk')) {
+            return 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=400&fit=crop'; // Organization/Team
+        } else {
+            return 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=400&h=400&fit=crop'; // Default student activity
+        }
+    }
+
     public function run(): void
     {
-        DB::table('ekstrakulikulers')->insert([
+        $extracurriculars = [
             [
                 'name' => 'Pramuka',
                 'description' => 'Gerakan kepanduan yang membentuk karakter dan jiwa kepemimpinan.',
-                'logo' => 'https://images.unsplash.com/photo-1568120335123-14e49e7f3a2a?auto=format&fit=crop&w=600&q=60', // anak pramuka di alam
             ],
             [
                 'name' => 'Bola Voli',
                 'description' => 'Olahraga bola voli untuk melatih kerjasama tim dan fisik.',
-                'logo' => 'https://images.unsplash.com/photo-1504544750208-dc0358e63f7f?auto=format&fit=crop&w=600&q=60', // bola voli di lapangan
             ],
             [
                 'name' => 'Seni Tari',
                 'description' => 'Mengembangkan bakat menari dan ekspresi seni gerak.',
-                'logo' => 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=600&q=60', // penari
             ],
             [
                 'name' => 'Seni Vokal',
                 'description' => 'Pengembangan bakat menyanyi dan seni suara.',
-                'logo' => 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=60', // mikrofon
             ],
             [
                 'name' => 'Teater',
                 'description' => 'Mengasah kemampuan akting, drama, dan ekspresi panggung.',
-                'logo' => 'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=600&q=60', // aktor di panggung
             ],
             [
                 'name' => 'Karawitan',
                 'description' => 'Belajar seni musik tradisional Jawa dan gamelan.',
-                'logo' => 'https://images.unsplash.com/photo-1588422333077-64f2a7b50b17?auto=format&fit=crop&w=600&q=60', // gamelan tradisional
             ],
             [
                 'name' => 'PMR',
                 'description' => 'Pelatihan pertolongan pertama dan kepedulian sosial.',
-                'logo' => 'https://images.unsplash.com/photo-1606813909973-6dfae5f7cbb8?auto=format&fit=crop&w=600&q=60', // palang merah
             ],
             [
                 'name' => 'Fotografi',
                 'description' => 'Belajar teknik fotografi dan pengambilan gambar.',
-                'logo' => 'https://images.unsplash.com/photo-1519183071298-a2962be96c83?auto=format&fit=crop&w=600&q=60', // kamera DSLR
             ],
             [
                 'name' => 'Paskibra',
                 'description' => 'Melatih disiplin, kepemimpinan, dan kebanggaan nasional.',
-                'logo' => 'https://images.unsplash.com/photo-1590782306387-4cf2c8ff7d36?auto=format&fit=crop&w=600&q=60', // bendera merah putih
             ],
             [
                 'name' => 'Pencak Silat',
                 'description' => 'Belajar seni bela diri tradisional Indonesia.',
-                'logo' => 'https://images.unsplash.com/photo-1604964432806-254d63f88b13?auto=format&fit=crop&w=600&q=60', // pencak silat
             ],
             [
                 'name' => 'Bola Basket',
                 'description' => 'Melatih kerjasama dan kebugaran melalui olahraga basket.',
-                'logo' => 'https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=600&q=60', // bola basket
             ],
             [
                 'name' => 'Futsal',
                 'description' => 'Melatih teamwork dan ketangkasan dalam olahraga futsal.',
-                'logo' => 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=600&q=60', // lapangan futsal
             ],
             [
                 'name' => 'English Conversation',
                 'description' => 'Belajar dan praktik percakapan bahasa Inggris.',
-                'logo' => 'https://images.unsplash.com/photo-1584697964154-ef25b8b49b7c?auto=format&fit=crop&w=600&q=60', // belajar bahasa
             ],
             [
                 'name' => 'Robotik',
                 'description' => 'Belajar merakit dan memprogram robot.',
-                'logo' => 'https://images.unsplash.com/photo-1581092334569-7b8bfa42a244?auto=format&fit=crop&w=600&q=60', // robot
             ],
             [
                 'name' => 'Graphic Design',
                 'description' => 'Belajar desain grafis dan kreativitas visual.',
-                'logo' => 'https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=600&q=60', // desain grafis
             ],
             [
                 'name' => 'Cloud Computing',
                 'description' => 'Belajar teknologi komputasi awan dan server modern.',
-                'logo' => 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=60', // awan / server
             ],
             [
                 'name' => 'IT Software',
                 'description' => 'Belajar pengembangan perangkat lunak dan aplikasi.',
-                'logo' => 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=600&q=60', // coding
             ],
             [
                 'name' => 'Artificial Intelligence',
                 'description' => 'Belajar dasar-dasar kecerdasan buatan dan machine learning.',
-                'logo' => 'https://images.unsplash.com/photo-1581092588429-0f62bdc13c1d?auto=format&fit=crop&w=600&q=60', // AI robot
             ],
             [
                 'name' => 'Cyber Security',
                 'description' => 'Belajar keamanan siber dan perlindungan data.',
-                'logo' => 'https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=600&q=60', // keamanan digital
             ],
             [
                 'name' => 'Drone Pilot',
                 'description' => 'Belajar mengoperasikan dan mengendalikan drone.',
-                'logo' => 'https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=600&q=60', // drone
             ],
             [
                 'name' => 'Internet Network Cabling',
                 'description' => 'Belajar instalasi dan manajemen kabel jaringan internet.',
-                'logo' => 'https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&w=600&q=60', // kabel jaringan
             ],
             [
                 'name' => 'IT Network',
                 'description' => 'Belajar membangun dan mengelola jaringan komputer.',
-                'logo' => 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=60', // server rack
             ],
             [
                 'name' => 'Digital Marketing',
                 'description' => 'Belajar strategi pemasaran digital dan media sosial.',
-                'logo' => 'https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=600&q=60', // marketing online
             ],
             [
                 'name' => 'Web Design',
                 'description' => 'Belajar desain dan pengembangan website.',
-                'logo' => 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=60', // UI design
             ],
-        ]);
+        ];
+
+        // Add logo to each extracurricular based on name
+        $data = array_map(function ($item) {
+            $item['logo'] = $this->getEkskulImage($item['name']);
+            return $item;
+        }, $extracurriculars);
+
+        DB::table('ekstrakulikulers')->insert($data);
     }
 }
