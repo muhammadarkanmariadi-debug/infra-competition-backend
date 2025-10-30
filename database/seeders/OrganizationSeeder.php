@@ -33,7 +33,7 @@ class OrganizationSeeder extends Seeder
                 'name' => 'MPK',
                 'is_organization' => true,
                 'mentor_id' => 1,
-                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/t_media_lib_thumb/mpk_dvx9zl',
+                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/mpk_xjyktb',
                 'long_description' => '
                     <p><strong>Majelis Permusyawaratan Kelas (MPK)</strong> merupakan lembaga legislatif siswa di SMK Telkom Malang yang memiliki peran strategis sebagai pengawas dan mitra kerja OSIS dalam menjalankan roda organisasi kesiswaan.</p>
                     <p>MPK terdiri dari perwakilan setiap kelas yang dipilih secara demokratis, sehingga menjadi wadah aspirasi seluruh siswa. Tugas utama MPK adalah memastikan bahwa setiap kegiatan OSIS berjalan sesuai visi, misi, dan aturan sekolah, serta tetap berpihak pada kepentingan siswa secara keseluruhan. MPK juga berfungsi sebagai lembaga penyalur ide dan kritik konstruktif untuk menciptakan kegiatan yang inovatif dan relevan dengan kebutuhan peserta didik.</p>
@@ -49,7 +49,7 @@ class OrganizationSeeder extends Seeder
                 'name' => 'METIC',
                 'is_organization' => false,
                 'mentor_id' => 1,
-                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/t_media_lib_thumb/metic_x7nhga',
+                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/metic_c66xin',
                 'long_description' => '
                     <p><strong>METIC (Moklet Education and Technology Innovation Club)</strong> adalah komunitas teknologi di SMK Telkom Malang yang berfokus pada pengembangan ilmu pengetahuan, riset, dan inovasi digital.</p>
                     <p>METIC menjadi wadah bagi siswa yang memiliki minat di bidang teknologi informasi, pemrograman, desain sistem, dan kecerdasan buatan. Setiap anggota METIC dilatih untuk memahami konsep teknologi modern melalui kegiatan praktis seperti pelatihan coding, kompetisi inovasi digital, pengembangan aplikasi mobile dan web, serta implementasi Internet of Things (IoT).</p>
@@ -63,7 +63,7 @@ class OrganizationSeeder extends Seeder
                 'name' => 'MEMO',
                 'is_organization' => false,
                 'mentor_id' => 1,
-                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/t_media_lib_thumb/memo_x9czvb',
+                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/memo_l60ixu',
                 'long_description' => '
                     <p><strong>MEMO (Media dan Komunikasi)</strong> adalah komunitas yang berperan penting sebagai pengelola publikasi, dokumentasi, dan penyebaran informasi di lingkungan SMK Telkom Malang.</p>
                     <p>Anggota MEMO berperan sebagai jurnalis sekolah yang meliput berbagai kegiatan, membuat konten digital, dan mendesain media komunikasi yang menarik. Mereka menguasai keterampilan fotografi, videografi, jurnalistik, desain grafis, hingga pengelolaan media sosial. Melalui konten kreatifnya, MEMO membantu membangun citra positif sekolah serta menumbuhkan minat siswa dalam dunia komunikasi dan media digital.</p>
@@ -77,7 +77,7 @@ class OrganizationSeeder extends Seeder
                 'name' => 'MAC',
                 'is_organization' => false,
                 'mentor_id' => 1,
-                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/t_media_lib_thumb/mac_kjhrzb',
+                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/mac_cmcknb',
                 'long_description' => '
                     <p><strong>Moklet Art Community (MAC)</strong> merupakan wadah ekspresi seni dan kreativitas siswa SMK Telkom Malang. Komunitas ini menaungi berbagai bidang seni seperti musik, tari, teater, sastra, dan seni rupa. MAC hadir sebagai ruang bagi para pelajar untuk menyalurkan bakat serta mengasah kemampuan artistik mereka agar dapat berkembang menjadi individu yang kreatif dan berbudaya.</p>
                     <p>Melalui latihan rutin, workshop seni, hingga pementasan di berbagai event sekolah maupun luar sekolah, MAC membuktikan bahwa siswa teknologi juga mampu berprestasi di bidang seni. Kegiatan MAC tidak hanya berorientasi pada hiburan, tetapi juga pembentukan karakter melalui seni yang mengajarkan kedisiplinan, kerja sama, dan kepekaan terhadap lingkungan sosial.</p>
@@ -91,7 +91,7 @@ class OrganizationSeeder extends Seeder
                 'name' => 'COMET',
                 'is_organization' => false,
                 'mentor_id' => 1,
-                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/t_media_lib_thumb/comet_gcpuzf',
+                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/comet_vxncdf',
                 'long_description' => '
                     <p><strong>Community of Moklet English Talent (COMET)</strong> merupakan komunitas pelajar SMK Telkom Malang yang fokus pada pengembangan kemampuan berbahasa Inggris secara aktif dan komunikatif. COMET menjadi tempat bagi siswa yang ingin memperdalam keterampilan berbicara, menulis, mendengarkan, dan membaca dalam bahasa internasional ini.</p>
                     <p>Melalui kegiatan seperti English Conversation Club, Speech Contest, Debate Class, dan Writing Workshop, COMET membantu anggotanya meningkatkan rasa percaya diri dalam menggunakan bahasa Inggris di berbagai konteks. Kegiatan dilakukan secara interaktif dan menyenangkan, baik melalui diskusi ringan maupun simulasi situasi nyata seperti wawancara dan presentasi publik.</p>
@@ -105,7 +105,7 @@ class OrganizationSeeder extends Seeder
                 'name' => 'PUSTEL',
                 'is_organization' => false,
                 'mentor_id' => 1,
-                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/t_media_lib_thumb/pustel_hvbrcb',
+                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/pustel_dw9tia',
                 'long_description' => '
                     <p><strong>PUSTEL (Perpustakaan Telkom)</strong> adalah komunitas literasi di SMK Telkom Malang yang berperan sebagai pengelola perpustakaan sekaligus penggerak budaya membaca di lingkungan sekolah. Komunitas ini berkomitmen untuk menjadikan membaca sebagai gaya hidup positif di kalangan siswa.</p>
                     <p>Anggota PUSTEL bertanggung jawab terhadap pengelolaan koleksi buku, pelayanan peminjaman, dan perawatan arsip perpustakaan. Namun lebih dari itu, mereka juga aktif mengadakan kegiatan literasi seperti book review, lomba menulis, pojok baca kreatif, dan seminar literasi digital untuk memperkenalkan pentingnya informasi dan pengetahuan.</p>
@@ -119,7 +119,7 @@ class OrganizationSeeder extends Seeder
                 'name' => 'PMR',
                 'is_organization' => false,
                 'mentor_id' => 1,
-                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/t_media_lib_thumb/pmr_yvlhxt',
+                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/pmr_a437yq',
                 'long_description' => '
                     <p><strong>Palang Merah Remaja (PMR)</strong> adalah organisasi sosial kemanusiaan di SMK Telkom Malang yang bernaung di bawah Palang Merah Indonesia (PMI). PMR bertujuan menanamkan nilai kepedulian, solidaritas, dan tanggung jawab sosial di kalangan pelajar.</p>
                     <p>Kegiatan PMR mencakup pelatihan pertolongan pertama, donor darah, simulasi tanggap darurat bencana, dan kampanye hidup sehat. Melalui berbagai pelatihan tersebut, anggota PMR dibekali kemampuan dasar kesehatan dan tanggap situasi darurat. Selain itu, mereka juga aktif menjadi relawan dalam kegiatan sosial baik di lingkungan sekolah maupun masyarakat.</p>
@@ -133,7 +133,7 @@ class OrganizationSeeder extends Seeder
                 'name' => 'PALWAGA',
                 'is_organization' => false,
                 'mentor_id' => 1,
-                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/t_media_lib_thumb/palwaga_mqubty',
+                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/palwaga_n4q0f2',
                 'long_description' => '
                     <p><strong>Pasukan Pengibar Bendera (PALWAGA)</strong> adalah tim kehormatan sekolah yang memiliki tugas utama dalam pelaksanaan upacara bendera serta kegiatan kenegaraan lainnya di SMK Telkom Malang. PALWAGA dikenal karena kedisiplinan, ketepatan, dan semangat nasionalisme yang tinggi.</p>
                     <p>Anggota PALWAGA dilatih untuk memiliki fisik yang kuat, mental tangguh, dan rasa tanggung jawab yang tinggi. Latihan rutin dilakukan untuk membentuk karakter disiplin dan kekompakan tim. Selain bertugas di sekolah, PALWAGA juga kerap mengikuti lomba baris-berbaris (PBB) dan kegiatan nasional seperti pelatihan paskibraka tingkat kota maupun provinsi.</p>
@@ -147,7 +147,7 @@ class OrganizationSeeder extends Seeder
                 'name' => 'BDI',
                 'is_organization' => false,
                 'mentor_id' => 1,
-                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/t_media_lib_thumb/bdi_sfd2nx',
+                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/bdi_pm6qay',
                 'long_description' => '
                     <p><strong>Badan Dakwah Islam (BDI)</strong> adalah organisasi keagamaan siswa SMK Telkom Malang yang berfokus pada pengembangan spiritualitas, akhlak, dan keilmuan Islam. BDI menjadi pusat kegiatan keagamaan di sekolah yang berperan membimbing siswa agar memiliki karakter Islami dalam setiap aspek kehidupan.</p>
                     <p>Berbagai kegiatan rutin seperti kajian keislaman, mentoring, tadarus, dan peringatan hari besar Islam menjadi sarana bagi siswa untuk memperdalam ilmu agama dan memperkuat hubungan dengan Allah SWT. Selain itu, BDI juga aktif mengadakan kegiatan sosial seperti santunan anak yatim, buka puasa bersama, dan penggalangan dana kemanusiaan.</p>
@@ -161,7 +161,7 @@ class OrganizationSeeder extends Seeder
                 'name' => 'PASKATEMA',
                 'is_organization' => false,
                 'mentor_id' => 1,
-                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/t_media_lib_thumb/paskatema_lcbnyx',
+                'logo' => 'https://res.cloudinary.com/dvpb6z2oj/image/upload/paskatema_yvhkrq',
                 'long_description' => '
                     <p><strong>Paskibra SMK Telkom Malang (PASKATEMA)</strong> adalah organisasi yang menanamkan semangat nasionalisme, kedisiplinan, dan cinta tanah air melalui kegiatan baris-berbaris serta pelatihan kepemimpinan.</p>
                     <p>PASKATEMA menjadi salah satu organisasi dengan tingkat kedisiplinan tinggi di sekolah. Setiap anggotanya dibina untuk memiliki mental kuat, kemampuan fisik prima, dan rasa tanggung jawab yang tinggi. Pelatihan dilakukan secara teratur mencakup PBB, formasi barisan, hingga kepemimpinan dan kerja tim. Selain itu, anggota PASKATEMA juga sering mengikuti kompetisi paskibra tingkat kota dan provinsi.</p>
