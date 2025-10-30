@@ -48,7 +48,6 @@ class BlogController extends Controller
             'tags' => 'required',
             'body' => 'required',
             'is_published' => 'required',
-            'author_id' => 'required|exists:users,id'
         ]);
 
 
