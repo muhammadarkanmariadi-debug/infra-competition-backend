@@ -78,8 +78,24 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Blog::class, 'author_id');
     }
 
-    public function socialmedia()
+    public function socialMedia()
     {
         return $this->hasMany(SocialMedia::class);
     }
+
+    public function isOrganizationLeader()
+    {
+        return $this->hasOne(Organization::class, 'mentor_id');
+    }
+
+    public function organization()
+    {
+        return $this->hasMany(Organization::class);
+    }
+
+    public function organizationRole()
+    {
+        return $this->hasMany(OrganizationRole::class);
+    }
+
 }

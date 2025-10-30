@@ -14,13 +14,18 @@ class Organization extends Model
         return $this->belongsTo(User::class, 'mentor_id');
     }
 
-    public function users()
-    {
-        return $this->hasMany(User::class);
-    }
-
     public function organizationRoles()
     {
         return $this->hasMany(OrganizationRole::class);
+    }
+
+    public function socialMedia()
+    {
+        return $this->hasMany(SocialMedia::class);
+    }
+
+    public function members()
+    {
+        return $this->hasMany(User::class);
     }
 }
