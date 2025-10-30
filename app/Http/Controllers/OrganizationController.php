@@ -56,9 +56,14 @@ class OrganizationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show( $id)
     {
-        //
+        $organization = Organization::find($id);
+        if (!$organization) {
+            return APIReturn::error('Organization not found', 404);
+        }
+
+        return APIReturn::success($organization, 'Organization retrieved successfully');
     }
 
     /**

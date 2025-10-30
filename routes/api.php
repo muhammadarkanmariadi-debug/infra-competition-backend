@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\AspirasiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
@@ -235,5 +236,16 @@ Route::controller(AspirasiController::class)->group(function () {
     Route::get('/aspirasi', 'index');
     Route::get('/aspirasi/{id}', 'show');
     Route::post('/aspirasi', 'store');
+});
 
+Route::controller(AlumniController::class)->group(function () {
+    Route::get('/alumni', 'index');
+    Route::get('/alumni/angkatan-list', 'angkatanList');
+    Route::get('/alumni/angkatan/{angkatan}', 'byAngkatan');
+    Route::get('/alumni/{slug}', 'show');
+    Route::middleware([isAdmin::class, Authenticate::class])->group(function () {
+        Route::post('/alumni', 'store');
+        Route::put('/alumni/{slug}', 'update');
+        Route::delete('/alumni/{slug}', 'destroy');
+    });
 });

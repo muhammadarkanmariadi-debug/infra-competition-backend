@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
             ClassSeeder::class,
             SocialProfileSeeder::class,
             ExtracurricularSeeder::class,
-
+            AlumniSeeder::class,
 
         ]);
     }
